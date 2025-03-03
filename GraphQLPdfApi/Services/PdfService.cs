@@ -18,7 +18,7 @@ public class PdfService
         _converter = new SynchronizedConverter(new PdfTools());
     }
 
-    public async Task<string> GeneratePdfAsync()
+    public async Task<byte[]> GeneratePdfAsync()
     {
         var htmlContent = GenerateHtmlContent();
         var pdfDocument = new HtmlToPdfDocument
@@ -38,10 +38,8 @@ public class PdfService
         };
 
         var pdfBytes = _converter.Convert(pdfDocument);
-        var pdfPath = Path.Combine(Directory.GetCurrentDirectory(), "GeneratedPdf.pdf");
-        await File.WriteAllBytesAsync(pdfPath, pdfBytes);
 
-        return pdfPath;
+        return pdfBytes;
     }
 
     private string GenerateHtmlContent()
